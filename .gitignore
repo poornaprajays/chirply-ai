@@ -1,0 +1,29 @@
+# Python virtual environment and caching
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env
+
+# Frontend Node packages and Vite builds
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Platform Data Exclusions (Do not check heavy binary/database assets into git)
+data/recordings/*.wav
+data/spectrograms/*.png
+data/spectrograms/*.jpg
+data/spectrograms/*.jpeg
+data/detections/*.db
+data/detections/*.db-journal
+
+# Operating System & IDE config
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
