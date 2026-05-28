@@ -88,31 +88,12 @@ Retrieves local Raspberry Pi performance diagnostics to verify edge-node health.
 
 ---
 
-## 3. Streaming (WebSocket) API
+## 3. Streaming & Live Updates (REST Polling)
 
-To support real-time audio dashboard rendering, the client opens a permanent WebSocket stream.
+To support real-time audio dashboard updates, the React client performs periodic HTTP requests (polling) to the detections list endpoint.
 
-* **Endpoint**: `WS /api/v1/stream`
-* **Message Payload (Server-to-Client)**:
-  Every time BirdNET finishes an inference chunk or detects a trigger species:
-```json
-{
-  "event": "detection",
-  "data": {
-    "id": "det_839f3f98",
-    "timestamp": "2026-05-26T16:46:12.000Z",
-    "species_common": "American Robin",
-    "confidence": 0.94,
-    "spectrogram_url": "/api/v1/spectrograms/spec_20260526_164600.png"
-  }
-}
-```
-Or periodic decibel checks to animate UI microphones:
-```json
-{
-  "event": "mic_level",
-  "data": {
-    "db": -12.4
-  }
-}
-```
+* **Recommended Polling Endpoint**: `GET /api/v1/detections?limit=10`
+* **Polling Interval**: Every 2.0 to 5.0 seconds.
+
+> [!NOTE]
+> **WebSocket Roadmap**: A permanent bi-directional WebSocket interface (`WS /api/v1/stream`) is planned for a future release to support push-based updates and live decibel meter animations. For the current edge deployment phase, REST polling is used to keep the system footprint extremely light, robust, and resilient to local network drops.

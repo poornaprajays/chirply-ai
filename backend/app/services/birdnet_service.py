@@ -3,6 +3,7 @@ import wave
 import logging
 from typing import List, Dict, Any, Optional
 import numpy as np
+from backend.app.core.config import settings
 
 # Edge Optimization: Prefer tflite_runtime on Raspberry Pi to avoid installing
 # the full 500MB+ TensorFlow package, saving hundreds of megabytes of RAM.
@@ -22,15 +23,16 @@ class BirdNetService:
     Designed to run efficiently on memory-constrained devices like the Raspberry Pi.
     """
     
-    def __init__(self, model_path: str = "backend/models/model.tflite", 
-                 labels_path: str = "backend/models/labels.txt",
-                 default_confidence: float = 0.70):
+    def __init__(self, model_path: Optional[str] = None, 
+                 labels_path: Optional[str] = None,
+                 default_confidence: Optional[float] = None):
         """
         Sets model paths, labels paths, and default configurations.
+        Defaults are consumed from global application settings.
         """
-        self.model_path = os.path.abspath(model_path)
-        self.labels_path = os.path.abspath(labels_path)
-        self.default_confidence = default_confidence
+        self.model_path = os.path.abspath(model_path or settings.BIRDNET_MODEL_PATH)
+        self.labels_path = os.path.abspath(labels_path or settings.BIRDNET_LABELS_PATH)
+        self.default_confidence = default_confidence if default_confidence is not None else settings.MIN_CONFIDENCE_THRESHOLD
         
         self.interpreter = None
         self.labels = []

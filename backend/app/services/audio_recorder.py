@@ -26,6 +26,11 @@ class AudioRecorderService:
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir, exist_ok=True)
             logger.info(f"Recordings storage folder created at: {self.output_dir}")
+            
+        # Determine if we should fall back to developer mock mode
+        self.mock_mode = not self.validate_microphone()
+        if self.mock_mode:
+            logger.info("AudioRecorderService initialized in DEVELOPER MOCK MODE (no hardware input).")
 
     def generate_output_path(self) -> str:
         """
@@ -61,7 +66,7 @@ class AudioRecorderService:
                 return False
                 
         except (subprocess.SubprocessError, FileNotFoundError) as e:
-            logger.error(f"Soundcard validation failed: {e}", exc_info=True)
+            logger.warning(f"Soundcard validation failed (arecord utility unavailable): {e}")
             return False
 
     def record_audio(self, duration: int = 3) -> str:
@@ -72,8 +77,45 @@ class AudioRecorderService:
         Raspberry Pi Friendly Design:
         - Natively executes in C via ALSA, completely bypassing Python's GIL.
         - Clean exit hooks prevent zombie audio device locks on process restarts.
+        
+        Developer Mock Mode:
+        - If self.mock_mode is True, generates a mock WAV file programmatically
+          and simulates recording duration with time.sleep.
         """
         output_path = self.generate_output_path()
+        
+        if self.mock_mode:
+            logger.info(f"Generating mock audio capture: {output_path} (Duration: {duration}s)")
+            import wave
+            import struct
+            import math
+            import time
+            
+            num_samples = int(self.sample_rate * duration)
+            # Generate a simple 440Hz sine wave tone to simulate audio presence
+            frequency = 440.0
+            
+            try:
+                with wave.open(output_path, "wb") as w:
+                    w.setnchannels(self.channels)
+                    w.setsampwidth(2)  # 16-bit PCM
+                    w.setframerate(self.sample_rate)
+                    
+                    frames = []
+                    for i in range(num_samples):
+                        val = int(32767.0 * math.sin(2.0 * math.pi * frequency * i / self.sample_rate))
+                        frames.append(struct.pack("<h", val))
+                    w.writeframes(b"".join(frames))
+                    
+                # Simulate physical microphone capture latency
+                time.sleep(duration)
+                logger.info(f"Mock recording completed: {output_path}")
+                return output_path
+                
+            except Exception as e:
+                logger.error(f"Failed to generate mock audio recording: {e}", exc_info=True)
+                raise RuntimeError(f"Mock recording generation failed: {e}") from e
+
         logger.info(f"Initiating arecord capture: {output_path} (Duration: {duration}s)")
         
         # command flags:

@@ -10,29 +10,29 @@ System Architecture:
 │ ReSpeaker Mic Array         │
 │ BirdNET Inference Engine    │
 │ Audio Chunk Processor       │
-│ Detection Event Generator   │
+│ Detection Logger Service    │
 └─────────────┬───────────────┘
               │
-              │ REST/WebSocket
+              │ REST API (Polling)
               ▼
 ┌─────────────────────────────┐
 │ FastAPI Backend             │
 │                             │
-│ Detection APIs              │
+│ Detection REST APIs         │
 │ Species Metadata            │
 │ Audio Clip Storage          │
-│ Event Streaming             │
+│ Local SQLite DB Logger      │
 └─────────────┬───────────────┘
               │
               ▼
 ┌─────────────────────────────┐
-│ PostgreSQL / TimescaleDB    │
+│ SQLite Database (Local)     │
 └─────────────┬───────────────┘
               │
               ▼
 ┌─────────────────────────────┐
 │ React Frontend              │
-│ Real-time detections        │
+│ Real-time (via polling)     │
 │ Spectrograms                │
 │ Bird cards                  │
 │ Maps & analytics            │
