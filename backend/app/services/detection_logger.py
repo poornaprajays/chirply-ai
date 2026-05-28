@@ -169,3 +169,194 @@ class DetectionLoggerService:
             if conn:
                 conn.close()
 
+    def fetch_detections(self, limit: int = 50, offset: int = 0, 
+                         min_confidence: Optional[float] = None, 
+                         species: Optional[str] = None) -> List[Dict[str, Any]]:
+        """
+        Retrieves paginated and filtered detections from SQLite.
+        Bypasses raw SQL in API layer by providing a clean service wrapper.
+        """
+        query_parts = ["SELECT * FROM detections"]
+        params = []
+        conditions = []
+        
+        if min_confidence is not None:
+            conditions.append("confidence >= ?")
+            params.append(min_confidence)
+            
+        if species:
+            conditions.append("(common_name LIKE ? OR scientific_name LIKE ?)")
+            like_str = f"%{species}%"
+            params.append(like_str)
+            params.append(like_str)
+            
+        if conditions:
+            query_parts.append("WHERE " + " AND ".join(conditions))
+            
+        query_parts.append("ORDER BY timestamp DESC LIMIT ? OFFSET ?")
+        params.append(limit)
+        params.append(offset)
+        
+        query_sql = " ".join(query_parts)
+        
+        conn = None
+        results = []
+        try:
+            conn = self._get_connection()
+            cursor = conn.execute(query_sql, tuple(params))
+            rows = cursor.fetchall()
+            for row in rows:
+                results.append(dict(row))
+            return results
+        except sqlite3.Error as e:
+            logger.error(f"Failed to query filtered detections from SQLite database: {e}", exc_info=True)
+            return []
+        finally:
+            if conn:
+                conn.close()
+
+    def count_detections(self, min_confidence: Optional[float] = None, 
+                         species: Optional[str] = None) -> int:
+        """
+        Calculates total records matching the filters for pagination count metadata.
+        """
+        query_parts = ["SELECT COUNT(*) as cnt FROM detections"]
+        params = []
+        conditions = []
+        
+        if min_confidence is not None:
+            conditions.append("confidence >= ?")
+            params.append(min_confidence)
+            
+        if species:
+            conditions.append("(common_name LIKE ? OR scientific_name LIKE ?)")
+            like_str = f"%{species}%"
+            params.append(like_str)
+            params.append(like_str)
+            
+        if conditions:
+            query_parts.append("WHERE " + " AND ".join(conditions))
+            
+        query_sql = " ".join(query_parts)
+        
+        conn = None
+        count = 0
+        try:
+            conn = self._get_connection()
+            cursor = conn.execute(query_sql, tuple(params))
+            row = cursor.fetchone()
+            if row:
+                count = row["cnt"]
+            return count
+        except sqlite3.Error as e:
+            logger.error(f"Failed to count detections in SQLite database: {e}", exc_info=True)
+            return 0
+        finally:
+            if conn:
+                conn.close()
+
+    def fetch_detection_by_id(self, detection_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Fetches database details for a specific detection event.
+        """
+        query_sql = "SELECT * FROM detections WHERE id = ?;"
+        conn = None
+        try:
+            conn = self._get_connection()
+            cursor = conn.execute(query_sql, (detection_id,))
+            row = cursor.fetchone()
+            if row:
+                return dict(row)
+            return None
+        except sqlite3.Error as e:
+            logger.error(f"Failed to query detection {detection_id} from SQLite: {e}", exc_info=True)
+            return None
+        finally:
+            if conn:
+                conn.close()
+
+    def get_statistics(self) -> Dict[str, Any]:
+        """
+        Calculates aggregate statistics from the SQLite database.
+        """
+        stats = {
+            "total_detections": 0,
+            "unique_species_count": 0,
+            "most_frequent_species": [],
+            "average_confidence": 0.0
+        }
+        
+        conn = None
+        try:
+            conn = self._get_connection()
+            
+            # 1. Total detections count
+            cursor = conn.execute("SELECT COUNT(*) as total FROM detections;")
+            row = cursor.fetchone()
+            if row:
+                stats["total_detections"] = row["total"]
+                
+            if stats["total_detections"] > 0:
+                # 2. Unique species count
+                cursor = conn.execute("SELECT COUNT(DISTINCT common_name) as unique_cnt FROM detections;")
+                row = cursor.fetchone()
+                if row:
+                    stats["unique_species_count"] = row["unique_cnt"]
+                    
+                # 3. Average confidence
+                cursor = conn.execute("SELECT AVG(confidence) as avg_conf FROM detections;")
+                row = cursor.fetchone()
+                if row and row["avg_conf"] is not None:
+                    stats["average_confidence"] = float(row["avg_conf"])
+                    
+                # 4. Most frequent species (top 5)
+                cursor = conn.execute(
+                    "SELECT common_name, COUNT(*) as cnt "
+                    "FROM detections "
+                    "GROUP BY common_name "
+                    "ORDER BY cnt DESC LIMIT 5;"
+                )
+                rows = cursor.fetchall()
+                stats["most_frequent_species"] = [
+                    {"common_name": r["common_name"], "count": r["cnt"]}
+                    for r in rows
+                ]
+                
+            return stats
+        except sqlite3.Error as e:
+            logger.error(f"Failed to query database statistics: {e}", exc_info=True)
+            return stats
+        finally:
+            if conn:
+                conn.close()
+
+    def fetch_species_counts(self) -> List[Dict[str, Any]]:
+        """
+        Returns list of unique species names with their historical count totals.
+        """
+        query_sql = (
+            "SELECT common_name, scientific_name, COUNT(*) as count "
+            "FROM detections "
+            "GROUP BY common_name "
+            "ORDER BY count DESC;"
+        )
+        conn = None
+        results = []
+        try:
+            conn = self._get_connection()
+            cursor = conn.execute(query_sql)
+            rows = cursor.fetchall()
+            for row in rows:
+                results.append({
+                    "species_common": row["common_name"],
+                    "species_scientific": row["scientific_name"],
+                    "count": row["count"]
+                })
+            return results
+        except sqlite3.Error as e:
+            logger.error(f"Failed to query unique species counts: {e}", exc_info=True)
+            return []
+        finally:
+            if conn:
+                conn.close()
+

@@ -49,6 +49,19 @@ class HardwareStatusSchema(BaseModel):
     ram_total_mb: int
     disk_free_percent: float
 
+class TelemetryStatusSchema(BaseModel):
+    """
+    Continuous pipeline telemetry logs and storage layout path details.
+    """
+    uptime_seconds: int
+    total_processed_chunks: int
+    total_detections: int
+    last_run_timestamp: Optional[str] = None
+    system_mode: str
+    database_path: str
+    recordings_dir: str
+    spectrograms_dir: str
+
 class SystemStatusSchema(BaseModel):
     """
     Diagnostics response format.
@@ -57,3 +70,21 @@ class SystemStatusSchema(BaseModel):
     pipeline_active: bool = Field(..., description="Whether recording pipeline is active")
     hardware: HardwareStatusSchema
     microphone_level_db: float = Field(..., description="Live decibel indicator from soundcard")
+    telemetry: TelemetryStatusSchema
+
+class SpeciesCountSchema(BaseModel):
+    """
+    Species observation metrics item.
+    """
+    common_name: str
+    count: int
+
+class StatsResponseSchema(BaseModel):
+    """
+    Global system analytics summary schema.
+    """
+    total_detections: int
+    unique_species_count: int
+    most_frequent_species: List[SpeciesCountSchema]
+    average_confidence: float
+    storage_utilization: Dict[str, Any]
