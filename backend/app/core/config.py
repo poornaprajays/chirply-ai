@@ -37,6 +37,12 @@ class Settings(BaseSettings):
     RECORDINGS_DIR: str = str(BASE_DIR / "data" / "recordings")
     SPECTROGRAMS_DIR: str = str(BASE_DIR / "data" / "spectrograms")
 
+    # Spectrogram Visual Settings
+    SPECTROGRAM_DPI: int = 100
+    SPECTROGRAM_WIDTH_PX: int = 800
+    SPECTROGRAM_HEIGHT_PX: int = 400
+    SPECTROGRAM_COLORMAP: str = "magma"
+
     class Config:
         env_prefix = "CHIRPLY_"
         case_sensitive = True
