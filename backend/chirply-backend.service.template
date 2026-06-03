@@ -1,0 +1,16 @@
+[Unit]
+Description=Chirply AI FastAPI Backend Service
+After=network.target
+
+[Service]
+User=birdnet
+WorkingDirectory={{WORKING_DIR}}
+Environment="PATH={{VENV_PATH}}/bin"
+ExecStart={{VENV_PATH}}/bin/uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
