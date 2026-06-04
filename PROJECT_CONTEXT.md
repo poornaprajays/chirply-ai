@@ -501,7 +501,7 @@ All schemas live in `backend/app/schemas/detection_schema.py`.
 │                                                                     │
 │  ┌──────────────────────────────────────────────────────────────┐   │
 │  │              FastAPI (uvicorn, port 8000)                    │   │
-│  │                                                              │   │
+│  │                                                              │   │[]
 │  │  GET /api/v1/health         → system diagnostics             │   │
 │  │  GET /api/v1/detections     → paginated detection history    │   │
 │  │  GET /api/v1/detections/{id}→ single detection record        │   │

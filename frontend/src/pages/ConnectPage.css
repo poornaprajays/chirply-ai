@@ -1,0 +1,313 @@
+/* ============================================================
+   SCREEN 1 — ConnectPage Styles
+   All elements follow the bento rule: border-radius: 0
+   ============================================================ */
+
+/* ── Page Layout: Full-viewport horizontal split ────────────── */
+.connect-page {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--bg-page);
+}
+
+/* ── LEFT PANEL ─────────────────────────────────────────────── */
+.connect-left {
+  display: flex;
+  flex-direction: column;
+  width: 58%;
+  flex-shrink: 0;
+  /* No border — we blend visually via the image gradient */
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Ensure it sits above the image's gradient overlay */
+  position: relative;
+  z-index: 1;
+}
+
+.connect-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-8) var(--space-8);
+  max-width: 560px;
+  align-self: center;
+  width: 100%;
+  padding-left: var(--space-8);
+  padding-right: var(--space-6);
+}
+
+/* ── Connection Card ────────────────────────────────────────── */
+.connect-card {
+  width: 100%;
+}
+
+.connect-card-body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.connect-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.connect-icon-wrap {
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card-alt);
+  border: var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.connect-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.connect-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 380px;
+}
+
+/* ── Form ────────────────────────────────────────────────────── */
+.connect-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.input-row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: stretch;
+  margin-bottom: 6px;
+}
+
+.connect-btn {
+  /* Subtle medium size — not dominant */
+  height: 38px;
+  padding: 0 var(--space-5);
+  font-size: 12px;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+/* ── Error message ───────────────────────────────────────────── */
+.connect-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #AAAAAA;
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: var(--bg-card-alt);
+  border: var(--border-primary);
+}
+
+/* ── Recent Devices Card ─────────────────────────────────────── */
+.recent-card {
+  width: 100%;
+}
+
+.recent-devices-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Device Row ─────────────────────────────────────────────── */
+.device-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px var(--space-4);
+  border-bottom: var(--border-primary);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+  transition: background var(--transition-fast);
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.device-row:last-child {
+  border-bottom: none;
+}
+
+.device-row:hover {
+  background: var(--bg-hover);
+}
+
+.device-icon-wrap {
+  width: 28px;
+  height: 28px;
+  background: var(--bg-card-alt);
+  border: var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.device-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.device-ip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.device-sub {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+
+.device-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  flex-shrink: 0;
+}
+
+.badge-active {
+  background: var(--bg-card-alt);
+  border: var(--border-primary);
+  color: var(--text-secondary);
+}
+
+.badge-stale {
+  background: transparent;
+  border: var(--border-primary);
+  color: var(--text-tertiary);
+}
+
+.device-arrow {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.device-row:hover .device-arrow {
+  color: var(--text-secondary);
+  transform: translateX(2px);
+}
+
+/* ── Bottom annotation ───────────────────────────────────────── */
+.bottom-annotation {
+  padding-top: var(--space-2);
+}
+
+/* ── Spinner ─────────────────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  border-top-color: #000000;
+  border-radius: 50%;
+  animation: spin 600ms linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── RIGHT PANEL — Bird Photo ────────────────── */
+.connect-right {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  /* Same pitch-black background so the dark B&W photo edges are invisible */
+  background: #000000;
+}
+
+.bird-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Multi-layer overlay:
+   LEFT edge  — heavy black fade so image bleeds into the left UI panel
+   BOTTOM     — lighter fade for caption legibility
+*/
+.bird-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    /* Left-side black bleed — this is the seamless blend */
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 1)    0%,
+      rgba(0, 0, 0, 0.75) 12%,
+      rgba(0, 0, 0, 0.3)  28%,
+      transparent         50%
+    ),
+    /* Bottom caption gradient */
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.2) 20%,
+      transparent        45%
+    );
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-6);
+}
+
+.bird-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bird-caption-label {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+}
+
+.bird-caption-sub {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.02em;
+}

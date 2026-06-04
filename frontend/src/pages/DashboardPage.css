@@ -1,0 +1,527 @@
+/* ============================================================
+   SCREEN 2 — DashboardPage Styles
+   All elements follow the bento rule: border-radius: 0
+   ============================================================ */
+
+/* ── Main Container & Body Split ────────────────────────────── */
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--bg-page);
+}
+
+.dashboard-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Main Panel Column ───────────────────────────────────────── */
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  overflow-y: auto;
+  min-width: 0; /* Avoid column blowouts */
+}
+
+/* ── Sidebar Column ──────────────────────────────────────────── */
+.dashboard-sidebar {
+  width: 320px;
+  border-left: var(--border-primary);
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+/* ── Pipeline Control Bar ────────────────────────────────────── */
+.pipeline-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-card);
+  border: var(--border-primary);
+  flex-shrink: 0;
+}
+
+.ctrl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 var(--space-3);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 0;
+}
+
+.ctrl-btn--start {
+  background: var(--text-primary);
+  color: var(--bg-page);
+}
+
+.ctrl-btn--start:hover {
+  opacity: 0.88;
+}
+
+.ctrl-btn--stop {
+  background: var(--bg-card-alt);
+  border: var(--border-secondary);
+  color: var(--text-primary);
+}
+
+.ctrl-btn--stop:hover {
+  background: var(--bg-hover);
+}
+
+.ctrl-btn--ghost {
+  background: transparent;
+  border: var(--border-secondary);
+  color: var(--text-secondary);
+}
+
+.ctrl-btn--ghost:hover {
+  border-color: var(--border-focus);
+  color: var(--text-primary);
+}
+
+.pipeline-meta {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-left: auto;
+  font-family: var(--font-body);
+}
+
+/* ── Spectrogram Panel ────────────────────────────────────────── */
+.spec-panel {
+  display: flex;
+  flex-direction: column;
+  border: var(--border-primary);
+  background: var(--bg-card);
+  flex-shrink: 0;
+}
+
+.spec-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px var(--space-4);
+  border-bottom: var(--border-primary);
+  background: var(--bg-card-alt);
+}
+
+.spec-panel-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--text-primary);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.85); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.85); opacity: 0.5; }
+}
+
+.spec-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.spec-sublabel {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.spec-panel-right {
+  display: flex;
+}
+
+.spec-canvas-area {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background: #050505;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.spec-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.spec-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+.spec-empty-icon {
+  color: var(--text-tertiary);
+  animation: rotate-slow 10s linear infinite;
+}
+
+@keyframes rotate-slow {
+  to { transform: rotate(360deg); }
+}
+
+.spec-panel-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px var(--space-4);
+  border-top: var(--border-primary);
+  background: var(--bg-card-alt);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+}
+
+.spec-foot-center {
+  font-family: var(--font-body);
+}
+
+/* ── Detection Feed Section ──────────────────────────────────── */
+.feed-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  min-height: 200px;
+}
+
+.feed-heading {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-bottom: var(--border-primary);
+  padding-bottom: 6px;
+}
+
+.feed-sub {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: none;
+  font-weight: 400;
+}
+
+.detection-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.feed-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  border: var(--border-primary);
+  background: var(--bg-card);
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+/* ── Detection Card ──────────────────────────────────────────── */
+.detection-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: 10px var(--space-4);
+  background: var(--bg-card);
+  border: var(--border-primary);
+  border-radius: 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.detection-card:hover {
+  background: var(--bg-card-alt);
+  border-color: var(--border-secondary);
+}
+
+.detection-card--new {
+  border-left: 2px solid var(--text-primary);
+  animation: highlight-new 1s ease-out;
+}
+
+@keyframes highlight-new {
+  0% { background: #1a1a1a; }
+  100% { background: var(--bg-card); }
+}
+
+.new-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--text-primary);
+  color: var(--bg-page);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 4px;
+}
+
+.card-spec-thumb {
+  width: 60px;
+  height: 38px;
+  background: #050505;
+  border: var(--border-primary);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.card-spec-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-spec-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-common {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-scientific {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+.card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.card-confidence {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-time {
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+
+/* ── Sidebar Cards ───────────────────────────────────────────── */
+.sidebar-card {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* ── Session Stats Grid ──────────────────────────────────────── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stat-cell {
+  padding: var(--space-4);
+  border-bottom: var(--border-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-cell:nth-child(odd) {
+  border-right: var(--border-primary);
+}
+
+.stat-cell:nth-child(3),
+.stat-cell:nth-child(4) {
+  border-bottom: none;
+}
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+/* ── Hardware Diagnostics (Pi Health) ────────────────────────── */
+.health-body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.health-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.health-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.health-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.health-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.health-val--warn {
+  color: #ff3333;
+}
+
+.health-track {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-card-alt);
+  border: var(--border-primary);
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  background: var(--text-primary);
+  transition: width var(--transition-base);
+}
+
+.health-fill--warn {
+  background: #ff3333;
+}
+
+/* ── Top Detected Species List ───────────────────────────────── */
+.top-species-body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-1) 0;
+}
+
+.top-species-empty {
+  padding: var(--space-4);
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+.species-row {
+  display: flex;
+  align-items: center;
+  padding: 8px var(--space-4);
+  border-bottom: var(--border-primary);
+  font-size: 12px;
+}
+
+.species-row:last-child {
+  border-bottom: none;
+}
+
+.species-rank {
+  font-family: var(--font-mono);
+  width: 20px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.species-name {
+  flex: 1;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.species-count {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  font-weight: 500;
+  background: var(--bg-card-alt);
+  border: var(--border-primary);
+  padding: 1px 6px;
+  font-size: 10px;
+}

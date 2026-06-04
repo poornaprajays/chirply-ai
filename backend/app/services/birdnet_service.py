@@ -40,6 +40,12 @@ class BirdNetService:
         self.output_index = None
         self.input_sample_size = None
 
+        # Check if we should fall back to developer mock mode
+        self.mock_mode = False
+        if tflite is None or not os.path.exists(self.model_path) or not os.path.exists(self.labels_path):
+            self.mock_mode = True
+            logger.warning("BirdNetService running in DEVELOPER MOCK MODE because TFLite is unavailable or model files are missing.")
+
     def load_model(self) -> None:
         """
         Loads the TFLite interpreter and pre-allocates memory tensors exactly once.
@@ -48,6 +54,18 @@ class BirdNetService:
         Raspberry Pi Friendly Design:
         - One-time allocation: prevents memory fragmentation and reduces inference-to-inference CPU cycles.
         """
+        if self.mock_mode:
+            logger.info("Initializing mock labels for Developer Mock Mode...")
+            self.labels = [
+                "Cyanocitta cristata (Blue Jay)",
+                "Cardinalis cardinalis (Northern Cardinal)",
+                "Turdus migratorius (American Robin)",
+                "Melospiza melodia (Song Sparrow)",
+                "Passer domesticus (House Sparrow)"
+            ]
+            self.input_sample_size = 144000
+            return
+
         if tflite is None:
             err_msg = "Neither tflite_runtime nor tensorflow.lite was found. Please install tflite-runtime."
             logger.critical(err_msg)
@@ -147,7 +165,7 @@ class BirdNetService:
         return [det for det in detections if det["confidence"] >= min_confidence]
 
     def run_inference(self, audio_path: str, 
-                      min_confidence: Optional[float] = None) -> List[Dict[str, Any]]:
+                       min_confidence: Optional[float] = None) -> List[Dict[str, Any]]:
         """
         Executes model inference on a target WAV file chunk.
         
@@ -155,11 +173,42 @@ class BirdNetService:
         - Uses native wave library decoding to keep memory footprints tiny.
         - Automatically rescales and pads audio segments without heavy math transformations.
         """
-        if self.interpreter is None:
+        if self.interpreter is None and not self.mock_mode:
             self.load_model()
             
         threshold = min_confidence if min_confidence is not None else self.default_confidence
         
+        if self.mock_mode:
+            if not self.labels:
+                self.load_model()
+            import random
+            import time
+            # 10% chance of no detection
+            if random.random() < 0.1:
+                return []
+            num_dets = random.choice([1, 2])
+            detections = []
+            species_pool = [
+                ("Cyanocitta cristata", "Blue Jay"),
+                ("Cardinalis cardinalis", "Northern Cardinal"),
+                ("Turdus migratorius", "American Robin"),
+                ("Melospiza melodia", "Song Sparrow"),
+                ("Passer domesticus", "House Sparrow")
+            ]
+            selected = random.sample(species_pool, num_dets)
+            for sci, com in selected:
+                detections.append({
+                    "scientific_name": sci,
+                    "common_name": com,
+                    "confidence": round(random.uniform(0.72, 0.98), 2),
+                    "start_time": 0.0,
+                    "end_time": 3.0
+                })
+            detections.sort(key=lambda x: x["confidence"], reverse=True)
+            time.sleep(0.1) # Simulate brief inference latency
+            logger.info(f"BirdNET mock inference complete. Identified {len(detections)} mock species.")
+            return detections
+
         # Verify file path exists
         if not os.path.exists(audio_path):
             logger.error(f"Audio file not found for inference: {audio_path}")

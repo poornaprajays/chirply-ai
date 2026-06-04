@@ -1,0 +1,331 @@
+/* ============================================================
+   CHIRPLY AI — GLOBAL DESIGN SYSTEM
+   Theme: Black & White Bento
+   All elements: sharp rectangles (border-radius: 0)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Satoshi:wght@400;500;700&display=swap');
+
+/* ── CSS Custom Properties ─────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-page:       #000000;
+  --bg-card:       #0D0D0D;
+  --bg-card-alt:   #141414;
+  --bg-hover:      #1A1A1A;
+  --bg-input:      #0A0A0A;
+
+  /* Borders */
+  --border-primary:   1px solid #1F1F1F;
+  --border-secondary: 1px solid #2A2A2A;
+  --border-focus:     1px solid #555555;
+  --border-error:     1px solid #666666;
+
+  /* Text */
+  --text-primary:   #FFFFFF;
+  --text-secondary: #888888;
+  --text-tertiary:  #444444;
+  --text-label:     #555555;
+
+  /* Status dots */
+  --dot-idle:  #444444;
+  --dot-live:  #FFFFFF;
+  --dot-warn:  #888888;
+
+  /* Buttons */
+  --btn-primary-bg:    #FFFFFF;
+  --btn-primary-text:  #000000;
+  --btn-ghost-bg:      transparent;
+  --btn-ghost-text:    #888888;
+  --btn-ghost-border:  #2A2A2A;
+
+  /* Typography */
+  --font-display: 'Clash Display', sans-serif;
+  --font-body:    'Satoshi', sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* Spacing */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Sizing */
+  --navbar-height: 48px;
+
+  /* Transitions */
+  --transition-fast: 120ms ease;
+  --transition-base: 200ms ease;
+
+  /* Bento: NO border-radius anywhere */
+  --radius: 0px;
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-page); }
+::-webkit-scrollbar-thumb { background: #2A2A2A; }
+::-webkit-scrollbar-thumb:hover { background: #3A3A3A; }
+
+/* ── Typography utilities ───────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+
+/* ── Bento base card ────────────────────────────────────────── */
+.bento-card {
+  background: var(--bg-card);
+  border: var(--border-primary);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.bento-card-header {
+  padding: 9px var(--space-4);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  border-bottom: var(--border-primary);
+  background: var(--bg-card-alt);
+  font-family: var(--font-body);
+}
+
+/* ── Navbar ─────────────────────────────────────────────────── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-5);
+  height: var(--navbar-height);
+  border-bottom: var(--border-primary);
+  background: var(--bg-page);
+  flex-shrink: 0;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.nav-logo-mark {
+  width: 24px;
+  height: 24px;
+  background: #1A1A1A;
+  border: 1px solid #2A2A2A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nav-wordmark {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ── Status pill ────────────────────────────────────────────── */
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: var(--border-secondary);
+  background: var(--bg-card);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  cursor: default;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-idle { background: var(--dot-idle); }
+.dot-live { background: var(--dot-live); }
+.dot-warn { background: var(--dot-warn); }
+
+/* ── Nav icon button ────────────────────────────────────────── */
+.nav-icon-btn {
+  width: 30px;
+  height: 30px;
+  border: var(--border-secondary);
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.nav-icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+  white-space: nowrap;
+  border-radius: var(--radius);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  height: 38px;
+  padding: 0 var(--space-5);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.btn-ghost {
+  height: 38px;
+  padding: 0 var(--space-4);
+  background: var(--btn-ghost-bg);
+  color: var(--btn-ghost-text);
+  border: 1px solid var(--btn-ghost-border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ── Form inputs ────────────────────────────────────────────── */
+.form-input {
+  height: 38px;
+  background: var(--bg-input);
+  border: var(--border-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 0 var(--space-3);
+  width: 100%;
+  outline: none;
+  transition: border-color var(--transition-fast);
+  border-radius: var(--radius);
+}
+
+.form-input::placeholder {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.form-input:focus {
+  border-color: #555555;
+}
+
+.form-input.error {
+  border-color: #666666;
+}
+
+.form-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+/* ── Divider ────────────────────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #1F1F1F;
+}
+
+/* ── Annotation text ────────────────────────────────────────── */
+.annotation {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Keyframe animations ────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.animate-fade-up {
+  animation: fade-up 300ms ease forwards;
+}
