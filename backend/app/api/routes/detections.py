@@ -70,6 +70,18 @@ async def list_detections(
         "results": results
     }
 
+@router.get("/summary/species")
+async def get_species_detected(request: Request):
+    """
+    Returns an aggregated list of all bird species detected historically,
+    including observation counts.
+    """
+    db_logger = getattr(request.app.state, "db_logger", None)
+    if db_logger is None:
+        return []
+        
+    return db_logger.fetch_species_counts()
+
 @router.get("/{id}", response_model=DetectionResponseSchema)
 async def get_detection_by_id(
     request: Request,
@@ -97,18 +109,6 @@ async def get_detection_by_id(
         "audio_url": f"{settings.API_PREFIX}/recordings/{row['audio_file']}" if row['audio_file'] else "",
         "spectrogram_url": f"{settings.API_PREFIX}/spectrograms/{row['spectrogram_file']}" if row['spectrogram_file'] else ""
     }
-
-@router.get("/summary/species")
-async def get_species_detected(request: Request):
-    """
-    Returns an aggregated list of all bird species detected historically,
-    including observation counts.
-    """
-    db_logger = getattr(request.app.state, "db_logger", None)
-    if db_logger is None:
-        return []
-        
-    return db_logger.fetch_species_counts()
 
 
 @assets_router.get("/recordings/{filename}")
