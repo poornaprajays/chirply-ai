@@ -5,6 +5,8 @@ know the vast variety of difrrent species of birds with thier chirp...
 
 System Architecture:
 
+
+
 ┌─────────────────────────────┐
 │ Raspberry Pi Edge Device    │
 │                             │
@@ -25,11 +27,13 @@ System Architecture:
 │ Local SQLite DB Logger      │
 └─────────────┬───────────────┘
               │
+         
               ▼
 ┌─────────────────────────────┐
 │ SQLite Database (Local)     │
 └─────────────┬───────────────┘
               │
+         
               ▼
 ┌─────────────────────────────┐
 │ React Frontend              │
