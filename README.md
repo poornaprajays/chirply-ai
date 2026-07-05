@@ -27,14 +27,13 @@ System Architecture:
 │ Local SQLite DB Logger      │
 └─────────────┬───────────────┘
               │
-         
               ▼
 ┌─────────────────────────────┐
 │ SQLite Database (Local)     │
 └─────────────┬───────────────┘
               │
          
-              ▼
+             ▼
 ┌─────────────────────────────┐
 │ React Frontend              │
 │ Real-time (via polling)     │
