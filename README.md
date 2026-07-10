@@ -3,7 +3,7 @@ know the vast variety of difrrent species of birds with thier chirp...
 
 
 <p align="center">
-  <img src="chirply.png" alt="Project Screenshot" width="900">
+  <img src=""C:\Users\poorn\OneDrive\Pictures\Screenshots\chirply.png"" alt="Project Screenshot" width="900">
 </p>
 
 
