@@ -10,12 +10,3 @@ know the vast variety of difrrent species of birds with thier chirp...
 
 
 
-
-             ▼
-┌─────────────────────────────┐
-│ React Frontend              │
-│ Real-time (via polling)     │
-│ Spectrograms                │
-│ Bird cards                  │
-│ Maps & analytics            │
-└─────────────────────────────┘
