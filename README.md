@@ -6,7 +6,7 @@ know the vast variety of difrrent species of birds with thier chirp...
   <img src="demo.png" width="800"/>
 </p>
 
-System Architecture:
+
 
 
 
