@@ -3,7 +3,7 @@ know the vast variety of difrrent species of birds with thier chirp...
 
 
 <p align="center">
-  <img src="images1/demo.png" width="800"/>
+  <img src="demo.png" width="800"/>
 </p>
 
 System Architecture:
