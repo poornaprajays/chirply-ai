@@ -525,3 +525,237 @@
   padding: 1px 6px;
   font-size: 10px;
 }
+
+/* ============================================================
+   MOBILE RESPONSIVE — Dashboard Page
+   ============================================================ */
+
+/* ── Tablet breakpoint (≤ 768px) ─────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Stack main + sidebar vertically */
+  .dashboard-page {
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
+  }
+
+  .dashboard-body {
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .dashboard-main {
+    padding: var(--space-3);
+    gap: var(--space-3);
+    overflow: visible;
+  }
+
+  /* Sidebar becomes full-width bottom section */
+  .dashboard-sidebar {
+    width: 100%;
+    border-left: none;
+    border-top: var(--border-primary);
+    padding: var(--space-3);
+    gap: var(--space-3);
+    overflow: visible;
+    flex-shrink: unset;
+  }
+
+  /* Pipeline controls wrap gracefully */
+  .pipeline-controls {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-2);
+  }
+
+  .pipeline-meta {
+    width: 100%;
+    margin-left: 0;
+    margin-top: var(--space-1);
+    text-align: center;
+  }
+
+  /* Spectrogram panel — shorter on tablets */
+  .spec-canvas-area {
+    height: 180px;
+  }
+
+  .spec-panel-header {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 8px var(--space-3);
+  }
+
+  .spec-sublabel {
+    display: none;
+  }
+
+  .spec-panel-footer {
+    padding: 6px var(--space-3);
+  }
+
+  /* Detection card — slightly tighter */
+  .detection-card {
+    gap: var(--space-3);
+    padding: 10px var(--space-3);
+  }
+
+  /* Stats grid — still 2 columns on tablet */
+  .stat-num {
+    font-size: 18px;
+  }
+
+  .stat-cell {
+    padding: var(--space-3);
+  }
+}
+
+/* ── Phone breakpoint (≤ 480px) ──────────────────────────────── */
+@media (max-width: 480px) {
+
+  .dashboard-main {
+    padding: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  .dashboard-sidebar {
+    padding: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  /* Pipeline controls — stack buttons */
+  .pipeline-controls {
+    padding: var(--space-2);
+    gap: var(--space-1);
+  }
+
+  .ctrl-btn {
+    font-size: 10px;
+    height: 26px;
+    padding: 0 var(--space-2);
+  }
+
+  .pipeline-meta {
+    font-size: 10px;
+  }
+
+  /* Spectrogram — compact */
+  .spec-canvas-area {
+    height: 140px;
+  }
+
+  .spec-panel-header {
+    padding: 6px var(--space-2);
+  }
+
+  .spec-label {
+    font-size: 11px;
+  }
+
+  .spec-panel-footer {
+    padding: 4px var(--space-2);
+    font-size: 9px;
+  }
+
+  .spec-panel-right .status-pill {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  /* Detection feed */
+  .feed-heading {
+    font-size: 12px;
+    flex-wrap: wrap;
+  }
+
+  .feed-section {
+    min-height: 120px;
+  }
+
+  /* Detection card — stack on very small screens */
+  .detection-card {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .card-spec-thumb {
+    width: 100%;
+    height: 80px;
+    order: -1;                   /* image on top */
+  }
+
+  .card-info {
+    flex: 1 1 60%;
+    min-width: 0;
+  }
+
+  .card-common {
+    font-size: 12px;
+    white-space: normal;
+  }
+
+  .card-scientific {
+    font-size: 10px;
+  }
+
+  .card-right {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .card-confidence {
+    font-size: 11px;
+  }
+
+  .card-time {
+    font-size: 9px;
+  }
+
+  /* Stats grid — single column on phone */
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-cell {
+    padding: var(--space-3);
+    border-right: none !important;
+  }
+
+  .stat-cell:nth-child(3) {
+    border-bottom: var(--border-primary);
+  }
+
+  .stat-num {
+    font-size: 16px;
+  }
+
+  /* Health bars */
+  .health-body {
+    padding: var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .health-label {
+    font-size: 10px;
+  }
+
+  .health-val {
+    font-size: 10px;
+  }
+
+  /* Top species */
+  .species-row {
+    padding: 6px var(--space-3);
+    font-size: 11px;
+  }
+
+  .species-count {
+    font-size: 9px;
+    padding: 1px 4px;
+  }
+}
