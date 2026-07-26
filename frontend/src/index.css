@@ -76,7 +76,6 @@
 html, body, #root {
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
 
 body {
@@ -335,12 +334,19 @@ body {
    ============================================================ */
 @media (max-width: 768px) {
   html, body, #root {
-    overflow: auto;            /* allow scroll on mobile */
+    height: auto !important;
+    min-height: 100%;
+    overflow: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
   }
 
   .navbar {
     padding: 0 var(--space-3);
     height: 44px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
   .nav-wordmark {
@@ -350,7 +356,7 @@ body {
   .status-pill {
     font-size: 10px;
     padding: 3px 8px;
-    max-width: 180px;
+    max-width: 160px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -373,13 +379,13 @@ body {
   }
 
   .nav-wordmark {
-    display: none;                /* hide wordmark on very small screens */
+    display: none;
   }
 
   .status-pill {
     font-size: 9px;
     padding: 2px 6px;
-    max-width: 150px;
+    max-width: 130px;
   }
 
   .nav-right {
