@@ -7,7 +7,7 @@
 .connect-page {
   display: flex;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
   background: var(--bg-page);
 }
@@ -319,23 +319,28 @@
 @media (max-width: 768px) {
   .connect-page {
     flex-direction: column;
-    overflow: auto;
+    height: auto !important;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: auto !important;
+    overflow-x: hidden !important;
   }
 
   /* Left panel takes full width */
   .connect-left {
-    width: 100%;
-    flex-shrink: unset;
+    width: 100% !important;
+    flex-shrink: unset !important;
   }
 
   .connect-content {
     max-width: 100%;
     padding: var(--space-5) var(--space-4);
+    align-self: stretch;
   }
 
   /* Hide the bird image panel on tablet/mobile */
   .connect-right {
-    display: none;
+    display: none !important;
   }
 
   .connect-title {
@@ -344,6 +349,7 @@
 
   .connect-subtitle {
     font-size: 12px;
+    max-width: 100%;
   }
 }
 
