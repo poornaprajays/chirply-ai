@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
   background: var(--bg-page);
 }
@@ -533,36 +533,43 @@
 /* ── Tablet breakpoint (≤ 768px) ─────────────────────────────── */
 @media (max-width: 768px) {
 
-  /* Stack main + sidebar vertically */
+  /* Kill all fixed-viewport traps */
   .dashboard-page {
-    height: auto;
+    height: auto !important;
     min-height: 100vh;
-    overflow: auto;
+    min-height: 100dvh;       /* iPhone Safari dynamic viewport */
+    width: 100% !important;   /* NOT 100vw — avoids scrollbar width issues */
+    overflow: visible !important;
+    overflow-x: hidden !important;
   }
 
   .dashboard-body {
-    flex-direction: column;
-    overflow: auto;
+    flex-direction: column !important;
+    overflow: visible !important;
+    min-height: 0;
   }
 
   .dashboard-main {
     padding: var(--space-3);
     gap: var(--space-3);
-    overflow: visible;
+    overflow: visible !important;
+    min-width: 0;
+    width: 100%;
   }
 
-  /* Sidebar becomes full-width bottom section */
+  /* Sidebar → full-width stacked section */
   .dashboard-sidebar {
-    width: 100%;
-    border-left: none;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-left: none !important;
     border-top: var(--border-primary);
     padding: var(--space-3);
     gap: var(--space-3);
-    overflow: visible;
-    flex-shrink: unset;
+    overflow: visible !important;
+    flex-shrink: unset !important;
   }
 
-  /* Pipeline controls wrap gracefully */
+  /* Pipeline controls — wrap on smaller screens */
   .pipeline-controls {
     flex-wrap: wrap;
     gap: var(--space-2);
@@ -574,9 +581,10 @@
     margin-left: 0;
     margin-top: var(--space-1);
     text-align: center;
+    font-size: 10px;
   }
 
-  /* Spectrogram panel — shorter on tablets */
+  /* Spectrogram */
   .spec-canvas-area {
     height: 180px;
   }
@@ -595,19 +603,24 @@
     padding: 6px var(--space-3);
   }
 
-  /* Detection card — slightly tighter */
+  /* Detection card */
   .detection-card {
     gap: var(--space-3);
     padding: 10px var(--space-3);
   }
 
-  /* Stats grid — still 2 columns on tablet */
+  /* Stats */
   .stat-num {
     font-size: 18px;
   }
 
   .stat-cell {
     padding: var(--space-3);
+  }
+
+  /* Sidebar cards stretch full */
+  .sidebar-card {
+    width: 100% !important;
   }
 }
 
@@ -624,7 +637,7 @@
     gap: var(--space-2);
   }
 
-  /* Pipeline controls — stack buttons */
+  /* Pipeline controls */
   .pipeline-controls {
     padding: var(--space-2);
     gap: var(--space-1);
@@ -637,7 +650,8 @@
   }
 
   .pipeline-meta {
-    font-size: 10px;
+    font-size: 9px;
+    word-break: break-word;
   }
 
   /* Spectrogram — compact */
@@ -670,10 +684,15 @@
   }
 
   .feed-section {
-    min-height: 120px;
+    min-height: 100px;
   }
 
-  /* Detection card — stack on very small screens */
+  .feed-empty {
+    height: 80px;
+    font-size: 11px;
+  }
+
+  /* Detection card — compact mobile layout */
   .detection-card {
     flex-wrap: wrap;
     gap: var(--space-2);
@@ -683,11 +702,11 @@
   .card-spec-thumb {
     width: 100%;
     height: 80px;
-    order: -1;                   /* image on top */
+    order: -1;
   }
 
   .card-info {
-    flex: 1 1 60%;
+    flex: 1 1 55%;
     min-width: 0;
   }
 
@@ -698,6 +717,7 @@
 
   .card-scientific {
     font-size: 10px;
+    white-space: normal;
   }
 
   .card-right {
@@ -716,7 +736,12 @@
     font-size: 9px;
   }
 
-  /* Stats grid — single column on phone */
+  .new-badge {
+    font-size: 7px;
+    padding: 1px 3px;
+  }
+
+  /* Stats grid — single column */
   .stats-grid {
     grid-template-columns: 1fr;
   }
@@ -732,6 +757,10 @@
 
   .stat-num {
     font-size: 16px;
+  }
+
+  .stat-lbl {
+    font-size: 9px;
   }
 
   /* Health bars */
@@ -759,3 +788,4 @@
     padding: 1px 4px;
   }
 }
+
