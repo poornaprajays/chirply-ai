@@ -1,5 +1,5 @@
 Chirply-ai 
-know the vast variety of difrrent species of birds with thier chirp
+know the vast variety of different species of birds with their chirp 
 
 
 <p align="center">
